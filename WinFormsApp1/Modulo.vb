@@ -2,6 +2,15 @@
 Imports System.Text.RegularExpressions
 
 Module Modulo
+
+
+    ' To do: Fix the 2 play movement from the computer
+
+
+
+
+
+
     Public matrizGalo(2, 2) As Integer
     Public Jogador As Boolean
     Public isMultiplayer As Boolean = False
@@ -23,7 +32,6 @@ Module Modulo
 
     Public Function VerificaJogada(coordX As Integer, coordY As Integer, ByRef Jogador As Boolean) As Char
         If isMultiplayer = False Then
-            System.Diagnostics.Debug.WriteLine("Multiplayer")
             If Jogador Then
                 matrizGalo(coordX, coordY) = 1
                 emptySpots(coordX, coordY) = 1
@@ -38,7 +46,6 @@ Module Modulo
                 Return "O"
             End If
         Else
-            System.Diagnostics.Debug.WriteLine("SinglePlayer")
             If Jogador Then
                 VerificaVencedor()
                 bestColumn = 0
