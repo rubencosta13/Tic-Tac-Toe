@@ -30,7 +30,7 @@ Public Class Form1
         PlayerName1 = "Computador"
         If Not Modulo.checkPlayerName(PlayerName0, PlayerName1) Then Return
         jogo.Show()
-        Modulo.isMultiplayer = False
+        Modulo.isMultiplayer = True
         System.Diagnostics.Debug.WriteLine(PlayerName0, PlayerName1)
         Me.Hide()
     End Sub

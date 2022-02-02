@@ -13,7 +13,6 @@ Module Modulo
     Dim btns = {{jogo.Button1, jogo.Button2, jogo.Button3}, {jogo.Button4, jogo.Button5, jogo.Button6}, {jogo.Button7, jogo.Button8, jogo.Button9}}
 
     Public Function displayMatrixData()
-        Return True
         System.Diagnostics.Debug.Write($"-------------------------------------{vbCrLf}")
         For i = 0 To UBound(matrizGalo)
             For j = 0 To UBound(matrizGalo)
@@ -24,6 +23,7 @@ Module Modulo
 
     Public Function VerificaJogada(coordX As Integer, coordY As Integer, ByRef Jogador As Boolean) As Char
         If isMultiplayer = False Then
+            System.Diagnostics.Debug.WriteLine("Multiplayer")
             If Jogador Then
                 matrizGalo(coordX, coordY) = 1
                 emptySpots(coordX, coordY) = 1
@@ -38,18 +38,22 @@ Module Modulo
                 Return "O"
             End If
         Else
+            System.Diagnostics.Debug.WriteLine("SinglePlayer")
             If Jogador Then
+                VerificaVencedor()
                 bestColumn = 0
                 bestRow = 0
                 matrizGalo(coordX, coordY) = 1
-                outputOnButton(coordX, coordY)
                 computeMoves()
+                outputOnButton(coordX, coordY)
                 Jogador = False
-                'Return "X"
+                Return "X"
             Else
+                VerificaVencedor()
+                matrizGalo(coordX, coordY) = 2
                 computeMoves()
                 Jogador = True
-                'Return "O"
+                Return "O"
             End If
         End If
     End Function
@@ -57,21 +61,28 @@ Module Modulo
     Public Function outputOnButton(coordX As Integer, coordY As Integer)
         btns(coordX, coordY).Text = IIf(Jogador = True, "X", "O")
         btns(coordX, coordY).Enabled = False
+        VerificaVencedor()
     End Function
 
     Public Function computeMoves()
-        If computeDiagonal() = True Then
-            outputOnButton(bestRow, bestColumn)
-            matrizGalo(bestRow, bestColumn) = 2
+        If computeDiagonal() Then
+            VerificaVencedor()
+            Jogador = Not Jogador
+            bestRow = 0
+            bestColumn = 0
+        Else
+            VerificaVencedor()
+            Jogador = Not Jogador
             bestRow = 0
             bestColumn = 0
         End If
-        Return False
+
+
     End Function
 
-    Public Function computeDiagonal() As Boolean
+    Public Function computeDiagonal() As Boolean 'Workin' SORT OF
+        VerificaVencedor()
         Dim currentValue As Integer = 0
-        If Jogador = True Then Return False
         For i = 0 To UBound(matrizGalo)
             For j = 0 To UBound(matrizGalo)
                 If matrizGalo(i, j) = 1 And Jogador = False Then 'Player
@@ -133,20 +144,27 @@ Module Modulo
 
 
     Public Function VerificaVencedor() As Integer
+        System.Diagnostics.Debug.WriteLine("Verifica Vencedor" & vbCrLf)
+        displayMatrixData()
         If VerificarDiagonalPrincipal() = 1 Then
+            System.Diagnostics.Debug.WriteLine($"1.1.1 -> {VerificarDiagonalPrincipal()}")
             gameOver(1)
             Return False
         ElseIf VerificarDiagonalPrincipal() = 2 Then
+            System.Diagnostics.Debug.WriteLine($"1.1.2 -> {VerificarDiagonalPrincipal()}")
             gameOver(2)
             Return False
         Else
             If Empate() = 1 Then
+                System.Diagnostics.Debug.WriteLine($"1.2.1 -> {Empate()}")
                 gameOver(0)
                 Return False
             ElseIf VerificarDiagonalSecundaria() = 1 Then
+                System.Diagnostics.Debug.WriteLine($"1.2.1 -> {VerificarDiagonalSecundaria()}")
                 gameOver(1)
                 Return False
-            ElseIf VerificarDiagonalPrincipal() = 2 Then
+            ElseIf VerificarDiagonalSecundaria() = 2 Then
+                System.Diagnostics.Debug.WriteLine($"1.2.1 -> {VerificarDiagonalSecundaria()}")
                 gameOver(2)
                 Return False
             Else
@@ -183,6 +201,7 @@ Module Modulo
                 End If
             Next
         Next
+        Return 3
     End Function
 
 
@@ -204,8 +223,10 @@ Module Modulo
                 ElseIf matrizGalo(i, 0) = 2 And matrizGalo(i, 1) = 2 And matrizGalo(i, 2) = 2 Then
                     Return 2
                 End If
+
             Next
         Next
+        Return 3
     End Function
 
     Public Function VerificarDiagonalSecundaria() As Integer
@@ -227,6 +248,7 @@ Module Modulo
                 End If
             Next
         Next
+        Return 3
     End Function
 
     Public Function VerificarDiagonalPrincipal() As Integer
@@ -250,6 +272,7 @@ Module Modulo
                 End If
             Next
         Next
+        Return 3
     End Function
 
     Public Function gameOver(Player As Integer) As Boolean

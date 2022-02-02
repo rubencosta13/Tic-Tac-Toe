@@ -40,3 +40,11 @@ O Jogador 1 ganhou o jogo
 O Jogador Computador ganhou o jogo
 O Jogador Computador ganhou o jogo
 O Jogador 1 ganhou o jogo
+O Jogador 1 ganhou o jogo
+O Jogador 1 ganhou o jogo
+O Jogador 1 ganhou o jogo
+O Jogador 1 ganhou o jogo
+O Jogador Computador ganhou o jogo
+O Jogador Computador ganhou o jogo
+O Jogador Computador ganhou o jogo
+O Jogador Computador ganhou o jogo
