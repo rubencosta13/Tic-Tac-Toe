@@ -1,0 +1,56 @@
+'If Debug = True Then
+        '    System.Diagnostics.Debug.WriteLine("Verifica Vencedor" & vbCrLf)
+        'End If
+        'displayMatrixData()
+        'If VerificarDiagonalPrincipal() = 1 Then
+        '    If Debug = True Then
+        '        System.Diagnostics.Debug.WriteLine($"1.1.1 -> {VerificarDiagonalPrincipal()}")
+        '    End If
+        '    gameOver(1)
+        '    Exit Function
+        'ElseIf VerificarDiagonalPrincipal() = 2 Then
+        '    If Debug = True Then
+        '        System.Diagnostics.Debug.WriteLine($"1.1.2 -> {VerificarDiagonalPrincipal()}")
+        '    End If
+        '    gameOver(2)
+        '    Exit Function
+        'Else
+        '    If Empate() = 1 Then
+        '        If Debug = True Then
+        '            System.Diagnostics.Debug.WriteLine($"1.2.1 -> {Empate()}")
+        '        End If
+        '        gameOver(0)
+        '        Exit Function
+        '    ElseIf VerificarDiagonalSecundaria() = 1 Then
+        '        If Debug = True Then
+        '            System.Diagnostics.Debug.WriteLine($"1.2.1 -> {VerificarDiagonalSecundaria()}")
+        '        End If
+        '        gameOver(1)
+        '        Exit Function
+        '    ElseIf VerificarDiagonalSecundaria() = 2 Then
+        '        If Debug = True Then
+        '            System.Diagnostics.Debug.WriteLine($"1.2.1 -> {VerificarDiagonalSecundaria()}")
+        '        End If
+        '        gameOver(2)
+        '        Exit Function
+        '    Else
+        '        If VerificaPorColuna() = 1 Then
+        '            gameOver(1)
+        '            Return False
+        '        ElseIf VerificaPorColuna() = 2 Then
+        '            gameOver(2)
+        '            Exit Function
+        '        Else
+        '            If VerificaPorLinha() = 1 Then
+        '                gameOver(1)
+        '                Exit Function
+        '            ElseIf VerificaPorLinha() = 2 Then
+        '                gameOver(2)
+        '                Exit Function
+        '            Else
+        '                Exit Function
+        '            End If
+        '        End If
+        '    End If
+        'End If
+        'Return False

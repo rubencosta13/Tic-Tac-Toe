@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hgirxCsQg1EjTcfjKQBBNr18L8bh9mR0H122OZSRz1hePvdg0Cw6KSOmaJ5Wj1xdg45pGCbGiSK7JkC/ZPl2Kw==",
+  "dgSpecHash": "IBl7AybC1PaYucGK7E8BAU0cfnsItQoo368/w/A6Utfr4Wh7XRu5b914TFXqYKs+E9YuEFV8BlP5GeQrLwxlJQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ruben Costa\\Desktop\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.vbproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Ruben Costa\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512",
-    "C:\\Users\\Ruben Costa\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
-    "C:\\Users\\Ruben Costa\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
-    "C:\\Users\\Ruben Costa\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\AEMGNASCENTE\\Documents\\RUBEN - REPO - GITHUB\\Tic-Tac-Toe\\WinFormsApp1\\WinFormsApp1.vbproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

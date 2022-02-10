@@ -3,8 +3,8 @@
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim pfc As New PrivateFontCollection
-        pfc.AddFontFile("C:\Users\Ruben Costa\Desktop\WinFormsApp1\LuckiestGuy-Regular.ttf")
-        pfc.AddFontFile("C:\Users\Ruben Costa\Desktop\WinFormsApp1\font2.ttf")
+        pfc.AddFontFile("C:\Users\AEMGNASCENTE\Documents\RUBEN - REPO - GITHUB\Tic-Tac-Toe\LuckiestGuy-Regular.ttf")
+        pfc.AddFontFile("C:\Users\AEMGNASCENTE\Documents\RUBEN - REPO - GITHUB\Tic-Tac-Toe\font2.ttf")
         Button1.Font = New Font(pfc.Families(0), 22, FontStyle.Bold)
         Button2.Font = New Font(pfc.Families(0), 22, FontStyle.Bold)
         Button3.Font = New Font(pfc.Families(0), 22, FontStyle.Bold)

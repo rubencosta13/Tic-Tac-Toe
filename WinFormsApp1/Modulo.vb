@@ -5,12 +5,8 @@ Module Modulo
 
 
     ' To do: Fix the 2 play movement from the computer
-
-
-
-
-
-
+    Public path As String = My.Application.Info.DirectoryPath
+    Public Debug As Integer = False
     Public matrizGalo(2, 2) As Integer
     Public Jogador As Boolean
     Public isMultiplayer As Boolean = False
@@ -21,28 +17,17 @@ Module Modulo
     Public bestColumn As Integer
     Dim btns = {{jogo.Button1, jogo.Button2, jogo.Button3}, {jogo.Button4, jogo.Button5, jogo.Button6}, {jogo.Button7, jogo.Button8, jogo.Button9}}
 
-    Public Function displayMatrixData()
-        System.Diagnostics.Debug.Write($"-------------------------------------{vbCrLf}")
-        For i = 0 To UBound(matrizGalo)
-            For j = 0 To UBound(matrizGalo)
-                System.Diagnostics.Debug.Write($"Indice: {i}:{j} -> Valor {matrizGalo(i, j)} {vbCrLf}")
-            Next
-        Next
-    End Function
-
     Public Function VerificaJogada(coordX As Integer, coordY As Integer, ByRef Jogador As Boolean) As Char
         If isMultiplayer = False Then
             If Jogador Then
                 matrizGalo(coordX, coordY) = 1
                 emptySpots(coordX, coordY) = 1
                 Jogador = Not Jogador
-                displayMatrixData()
                 Return "X"
             Else
                 matrizGalo(coordX, coordY) = 2
                 emptySpots(coordX, coordY) = 2
                 Jogador = Not Jogador
-                displayMatrixData()
                 Return "O"
             End If
         Else
@@ -57,6 +42,8 @@ Module Modulo
                 Return "X"
             Else
                 VerificaVencedor()
+                bestColumn = 0
+                bestRow = 0
                 matrizGalo(coordX, coordY) = 2
                 computeMoves()
                 Jogador = True
@@ -66,33 +53,29 @@ Module Modulo
     End Function
 
     Public Function outputOnButton(coordX As Integer, coordY As Integer)
+        If Debug Then
+            System.Diagnostics.Debug.WriteLine(player)
+        End If
         btns(coordX, coordY).Text = IIf(Jogador = True, "X", "O")
         btns(coordX, coordY).Enabled = False
-        VerificaVencedor()
+        Jogador = Not Jogador
     End Function
 
     Public Function computeMoves()
-        If computeDiagonal() Then
-            VerificaVencedor()
-            Jogador = Not Jogador
+        If computeRow() Then
             bestRow = 0
             bestColumn = 0
         Else
-            VerificaVencedor()
-            Jogador = Not Jogador
             bestRow = 0
             bestColumn = 0
         End If
-
-
     End Function
 
-    Public Function computeDiagonal() As Boolean 'Workin' SORT OF
-        VerificaVencedor()
+    Public Function computeRow() As Boolean
         Dim currentValue As Integer = 0
         For i = 0 To UBound(matrizGalo)
             For j = 0 To UBound(matrizGalo)
-                If matrizGalo(i, j) = 1 And Jogador = False Then 'Player
+                If matrizGalo(i, j) = 1 Then 'Player
                     currentValue -= 10
                     If currentValue = -20 Then 'Bloqueia o Jogador
                         bestRow = i
@@ -102,7 +85,7 @@ Module Modulo
                         currentValue = 0
                         Return True
                     End If
-                ElseIf matrizGalo(i, j) = 2 And Jogador = False Then 'Computador
+                ElseIf matrizGalo(i, j) = 2 Then 'Computador
                     currentValue += 10
                     If currentValue = 20 Then
                         bestRow = i
@@ -112,7 +95,7 @@ Module Modulo
                         currentValue = 0
                         Return True
                     End If
-                ElseIf matrizGalo(j, i) = 1 And Jogador = False Then
+                ElseIf matrizGalo(j, i) = 1 Then
                     currentValue -= 10
                     If currentValue = -20 Then
                         bestRow = i + 1
@@ -122,7 +105,7 @@ Module Modulo
                         currentValue = 0
                         Return True
                     End If
-                ElseIf matrizGalo(j, i) = 2 And Jogador = False Then 'Computador
+                ElseIf matrizGalo(j, i) = 2 Then 'Computador
                     currentValue += 10
                     If currentValue = 20 Then
                         bestRow = i + 1
@@ -149,51 +132,13 @@ Module Modulo
     End Function
 
 
-
     Public Function VerificaVencedor() As Integer
-        System.Diagnostics.Debug.WriteLine("Verifica Vencedor" & vbCrLf)
-        displayMatrixData()
-        If VerificarDiagonalPrincipal() = 1 Then
-            System.Diagnostics.Debug.WriteLine($"1.1.1 -> {VerificarDiagonalPrincipal()}")
-            gameOver(1)
-            Return False
-        ElseIf VerificarDiagonalPrincipal() = 2 Then
-            System.Diagnostics.Debug.WriteLine($"1.1.2 -> {VerificarDiagonalPrincipal()}")
-            gameOver(2)
-            Return False
-        Else
-            If Empate() = 1 Then
-                System.Diagnostics.Debug.WriteLine($"1.2.1 -> {Empate()}")
-                gameOver(0)
-                Return False
-            ElseIf VerificarDiagonalSecundaria() = 1 Then
-                System.Diagnostics.Debug.WriteLine($"1.2.1 -> {VerificarDiagonalSecundaria()}")
-                gameOver(1)
-                Return False
-            ElseIf VerificarDiagonalSecundaria() = 2 Then
-                System.Diagnostics.Debug.WriteLine($"1.2.1 -> {VerificarDiagonalSecundaria()}")
-                gameOver(2)
-                Return False
-            Else
-                If VerificaPorColuna() = 1 Then
-                    gameOver(1)
-                    Return False
-                ElseIf VerificaPorColuna() = 2 Then
-                    gameOver(2)
-                    Return False
-                Else
-                    If VerificaPorLinha() = 1 Then
-                        gameOver(1)
-                        Return False
-                    ElseIf VerificaPorLinha() = 2 Then
-                        gameOver(2)
-                        Return False
-                    Else
-                        Return False
-                    End If
-                End If
-            End If
-        End If
+        If VerificarDiagonalPrincipal() <> 3 Then Return gameOver(VerificarDiagonalPrincipal())
+        If Empate() <> 0 Then Return tieFunction()
+        If VerificarDiagonalSecundaria() <> 3 Then Return gameOver(VerificarDiagonalSecundaria())
+        If VerificaPorColuna() <> 3 Then Return gameOver(VerificaPorColuna())
+        If VerificaPorLinha() <> 3 Then Return gameOver(VerificaPorLinha())
+        Return 4
     End Function
 
     '   FUNCAO DE GANHAR
@@ -215,9 +160,7 @@ Module Modulo
     Private Function Empate() As Integer
         For i = 0 To UBound(matrizGalo)
             For j = 0 To UBound(matrizGalo)
-                If matrizGalo(i, j) = 0 Then
-                    Return 0 'Sem empate | O jogo continua
-                End If
+                If matrizGalo(i, j) = 0 Then Return 0
             Next
         Next
         Return 1
@@ -282,26 +225,33 @@ Module Modulo
         Return 3
     End Function
 
+    Public Function tieFunction() As Boolean
+        MsgBox($"Empate!")
+        For Each button As Button In jogo.Controls.OfType(Of Button)()
+            button.Text = " "
+            button.Enabled = False
+        Next
+    End Function
+
     Public Function gameOver(Player As Integer) As Boolean
-        If (Player = 0) Then
-            MsgBox($"Empate!")
-            For Each button As Button In jogo.Controls.OfType(Of Button)()
-                button.Text = " "
-                button.Enabled = False
-            Next
-        Else
-            Dim playerName As String = IIf(Player = 1, PlayerName0, PlayerName1)
-            MsgBox($"O Jogador {playerName} ganhou!")
-            Dim file As System.IO.StreamWriter
-            file = My.Computer.FileSystem.OpenTextFileWriter("C:\Users\Ruben Costa\Desktop\WinFormsApp1\scores.txt", True)
-            file.WriteLine($"O Jogador {playerName} ganhou o jogo")
+        MsgBox($"O Jogador {IIf(Player = 1, PlayerName0, PlayerName1)} ganhou!")
+        Dim file As System.IO.StreamWriter
+        Try
+            Dim filePath = IO.Path.Combine(path, "scores.txt")
+            file = My.Computer.FileSystem.OpenTextFileWriter(filePath, True)
+            file.WriteLine($"O Jogador {IIf(Player = 1, PlayerName0, PlayerName1)} ganhou o jogo")
+        Catch ex As Exception
+            If Debug Then
+                MsgBox(ex)
+            End If
+        Finally
             file.Close()
-            For Each button As Button In jogo.Controls.OfType(Of Button)()
-                button.Text = " "
-                button.Enabled = False
-            Next
-            Return True
-        End If
+        End Try
+        For Each button As Button In jogo.Controls.OfType(Of Button)()
+            button.Text = " "
+            button.Enabled = False
+        Next
+        Return True
     End Function
 
     Public Function actualRestart() As Boolean
@@ -332,7 +282,7 @@ Module Modulo
 
     Public Function getResults() As String
         Dim fileReader As String
-        fileReader = My.Computer.FileSystem.ReadAllText("C:\Users\Ruben Costa\Desktop\WinFormsApp1\scores.txt")
+        fileReader = My.Computer.FileSystem.ReadAllText("C:\Users\AEMGNASCENTE\Documents\RUBEN - REPO - GITHUB\Tic-Tac-Toe\scores.txt")
         Return fileReader
     End Function
 
